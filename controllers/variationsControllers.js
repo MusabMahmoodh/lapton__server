@@ -145,7 +145,7 @@ const createSubject = asyncHandler(async (req, res) => {
     name: "New  subject",
   });
 
-  const createdSubject = await variation.save();
+  const createdSubject = await subject.save();
   res.status(201).json(createdSubject);
 });
 // // @desc    Create a Variation
@@ -173,7 +173,7 @@ const createHeading = asyncHandler(async (req, res) => {
 // // @access  Private/Admin
 const updateSubject = asyncHandler(async (req, res) => {
   const { name, units, description } = req.body;
-
+  console.log(units);
   const subject = await Subject.findById(req.params.id);
 
   if (subject) {

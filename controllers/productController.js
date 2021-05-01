@@ -134,10 +134,20 @@ const deleteProduct = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
-    name: "Sample name",
+    name: "New product",
     image: "",
     author: "",
     description: "",
+
+    author: "",
+    resourceUrl: "",
+    category: null,
+    subject: null,
+    unit: null,
+    heading: null,
+    tags: "",
+    description: "",
+    duration: "",
   });
 
   try {
@@ -168,9 +178,10 @@ const updateProduct = asyncHandler(async (req, res) => {
     duration,
     isRecommended,
   } = req.body;
-  // console.log(image.name);
+
   try {
     const product = await Product.findById(req.params.id);
+
     if (product) {
       if (image.data) {
         const newImage = await upload_file(image.data);
@@ -178,8 +189,9 @@ const updateProduct = asyncHandler(async (req, res) => {
       } else {
         product.image = image;
       }
+
       product.name = name;
-      product.image = newImage;
+
       product.author = author;
       product.resourceUrl = resourceUrl;
       product.category = category;
@@ -205,9 +217,11 @@ const updateProduct = asyncHandler(async (req, res) => {
       }
 
       const updatedProduct = await product.save();
+
       res.json(updatedProduct);
     } else {
       res.status(404);
+
       throw new Error("Product not found");
     }
   } catch (error) {
