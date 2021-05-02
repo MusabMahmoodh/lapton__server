@@ -11,8 +11,10 @@ import Heading from "../models/headingModel.js";
 // @access  Public
 const getSubjects = asyncHandler(async (req, res) => {
   const subjects = await Subject.find()
+
     .populate({
       path: "units",
+
       populate: {
         path: "headings",
         model: "Heading",

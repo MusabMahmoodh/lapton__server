@@ -178,10 +178,10 @@ const updateProduct = asyncHandler(async (req, res) => {
     duration,
     isRecommended,
   } = req.body;
-
+  console.log(req.body);
   try {
     const product = await Product.findById(req.params.id);
-
+    console.log(product);
     if (product) {
       if (image.data) {
         const newImage = await upload_file(image.data);
@@ -217,7 +217,7 @@ const updateProduct = asyncHandler(async (req, res) => {
       }
 
       const updatedProduct = await product.save();
-
+      console.log(updatedProduct);
       res.json(updatedProduct);
     } else {
       res.status(404);
@@ -225,6 +225,7 @@ const updateProduct = asyncHandler(async (req, res) => {
       throw new Error("Product not found");
     }
   } catch (error) {
+    // console.log(error);
     res.status(204).json({ message: "Failed Updating" });
   }
 });
