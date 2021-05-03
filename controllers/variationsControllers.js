@@ -14,10 +14,11 @@ const getSubjects = asyncHandler(async (req, res) => {
 
     .populate({
       path: "units",
-
+      select: ["-createdAt", "-updatedAt"],
       populate: {
         path: "headings",
         model: "Heading",
+        select: ["-createdAt", "-updatedAt"],
       },
     })
     .sort({ createdAt: 1 })

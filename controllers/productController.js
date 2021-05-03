@@ -54,24 +54,48 @@ const getProducts = asyncHandler(async (req, res) => {
     //   .exec();
     // ).length;
     const products = await Product.find({ ...search })
+      .select(["-createdAt", "-updatedAt"])
       .sort({ createdAt: "desc" })
       .populate({
         path: "category",
-        select: "name",
+        select: ["-createdAt", "-updatedAt"],
       })
       .populate({
         path: "subject",
-        select: "name",
+        select: ["-createdAt", "-updatedAt"],
       })
       .populate({
         path: "unit",
-        select: "name",
+        select: ["-createdAt", "-updatedAt"],
       })
       .populate({
         path: "heading",
-        select: "name",
+        select: ["-createdAt", "-updatedAt"],
       })
 
+      .exec();
+    // console.log(products, keyword);
+    // console.log({ length });
+    // res.json({ length, products, page, pages: Math.ceil(count / pageSize) });
+    res.json({ products });
+  } catch (err) {
+    console.log(err);
+    res.json({ message: err.message });
+  }
+
+  // console.log(products);
+});
+const getLessons = asyncHandler(async (req, res) => {
+  // const pageSize = 20;
+  // const page = Number(req.query.page) || 1;
+
+  try {
+    const products = await Product.find({
+      category: "608fdd1616a9220015c3838e",
+      heading: req.params.id,
+    })
+      .select(["-createdAt", "-updatedAt", "-category", "-subject"])
+      .sort({ createdAt: "desc" })
       .exec();
     // console.log(products, keyword);
     // console.log({ length });
@@ -289,4 +313,5 @@ export {
   createProduct,
   updateProduct,
   getTopProducts,
+  getLessons,
 };
