@@ -121,7 +121,7 @@ const deleteUnit = asyncHandler(async (req, res) => {
       throw new Error("unit not found");
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(404);
   }
 });
@@ -135,7 +135,7 @@ const deleteHeading = asyncHandler(async (req, res) => {
       throw new Error("heading not found");
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(404);
   }
 });
@@ -176,7 +176,7 @@ const createHeading = asyncHandler(async (req, res) => {
 // // @access  Private/Admin
 const updateSubject = asyncHandler(async (req, res) => {
   const { name, units, description } = req.body;
-  console.log(units);
+  units;
   const subject = await Subject.findById(req.params.id);
 
   if (subject) {

@@ -7,7 +7,7 @@ import { upload_file } from "./fileUpload.js";
 const getProducts = asyncHandler(async (req, res) => {
   // const pageSize = 20;
   // const page = Number(req.query.page) || 1;
-  console.log("here");
+  // console.log("here");
   const keyword = req.query.keyword
     ? {
         tags: {
@@ -47,7 +47,7 @@ const getProducts = asyncHandler(async (req, res) => {
       }
     : { ...heading };
 
-  console.log(search);
+  // console.log(search);
   try {
     // const count = await Product.countDocuments({ ...search });
     // const length = (
@@ -78,7 +78,7 @@ const getProducts = asyncHandler(async (req, res) => {
 
     res.json({ products });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     res.json({ message: err.message });
   }
 
@@ -101,7 +101,7 @@ const getLessons = asyncHandler(async (req, res) => {
     // res.json({ length, products, page, pages: Math.ceil(count / pageSize) });
     res.json({ products });
   } catch (err) {
-    console.log(err);
+    err;
     res.json({ message: err.message });
   }
 
@@ -115,7 +115,7 @@ const getLabs = asyncHandler(async (req, res) => {
     const products = await Product.find({
       category: "608fdd0a16a9220015c3838d",
     })
-      .select(["-createdAt", "-updatedAt", "-category", "-subject"])
+      .select(["-createdAt", "-updatedAt", "-category"])
       .sort({ createdAt: "asc" })
       .exec();
     console.log(products);
