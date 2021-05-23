@@ -107,6 +107,28 @@ const getLessons = asyncHandler(async (req, res) => {
 
   // console.log(products);
 });
+const getLabs = asyncHandler(async (req, res) => {
+  // const pageSize = 20;
+  // const page = Number(req.query.page) || 1;
+
+  try {
+    const products = await Product.find({
+      category: "608fdd0a16a9220015c3838d",
+    })
+      .select(["-createdAt", "-updatedAt", "-category", "-subject"])
+      .sort({ createdAt: "asc" })
+      .exec();
+    console.log(products);
+    // console.log({ length });
+    // res.json({ length, products, page, pages: Math.ceil(count / pageSize) });
+    res.json({ products });
+  } catch (err) {
+    console.log(err);
+    res.json({ message: err.message });
+  }
+
+  // console.log(products);
+});
 
 // @desc    Fetch single product
 // @route   GET /api/products/:id
@@ -313,4 +335,5 @@ export {
   updateProduct,
   getTopProducts,
   getLessons,
+  getLabs,
 };
