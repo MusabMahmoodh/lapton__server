@@ -58,7 +58,7 @@ const createAdvertisement = asyncHandler(async (req, res) => {
 const updateAdvertisement = asyncHandler(async (req, res) => {
   const { image, description } = req.body;
 
-  console.log(req.body);
+  // console.log(req.body);
   try {
     const advertisement = await Advertisement.findById(req.params.id);
     if (advertisement) {
@@ -75,7 +75,7 @@ const updateAdvertisement = asyncHandler(async (req, res) => {
       throw new Error("Advertisement not found");
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(404);
   }
 });

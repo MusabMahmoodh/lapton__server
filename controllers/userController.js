@@ -23,7 +23,7 @@ const authUser = asyncHandler(async (req, res) => {
       throw new Error("Invalid email or password");
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(401).json({ message: error.message });
   }
 });

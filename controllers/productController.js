@@ -118,12 +118,12 @@ const getLabs = asyncHandler(async (req, res) => {
       .select(["-createdAt", "-updatedAt", "-category"])
       .sort({ createdAt: "asc" })
       .exec();
-    console.log(products);
+    // console.log(products);
     // console.log({ length });
     // res.json({ length, products, page, pages: Math.ceil(count / pageSize) });
     res.json({ products });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     res.json({ message: err.message });
   }
 
@@ -200,7 +200,7 @@ const createProduct = asyncHandler(async (req, res) => {
 
     res.status(201).json(createdProduct);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(400).json({ message: error.message });
   }
 });
@@ -223,10 +223,10 @@ const updateProduct = asyncHandler(async (req, res) => {
     duration,
     isRecommended,
   } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
   try {
     const product = await Product.findById(req.params.id);
-    console.log(product);
+    // console.log(product);
     if (product) {
       if (image.data) {
         const newImage = await upload_file(image.data);
@@ -262,7 +262,7 @@ const updateProduct = asyncHandler(async (req, res) => {
       }
 
       const updatedProduct = await product.save();
-      console.log(updatedProduct);
+      // console.log(updatedProduct);
       res.json(updatedProduct);
     } else {
       res.status(404);
