@@ -19,6 +19,7 @@ import userRoutes from "./routes/userRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import subjectRoutes from "./routes/subjectRoutes.js";
 import advertisementRoutes from "./routes/adRoutes.js";
+import labRoutes from "./routes/labRoutes.js";
 
 // Cloudinary config
 import pkg from "cloudinary";
@@ -51,6 +52,7 @@ if (process.env.NODE_ENV === "development") {
 app.use(morgan("dev"));
 app.use("/api/resources", productRoutes); //for resources
 app.use("/api/users", userRoutes);
+app.use("/api/labs", labRoutes);
 
 app.use("/api/categories", categoryRoutes); //for main categories
 app.use("/api/subjects", subjectRoutes); //for subjects
