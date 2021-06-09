@@ -5,8 +5,8 @@ import Lab from "../models/labModel.js";
 // @route   GET /api/Category
 // @access  Public
 const getLab = asyncHandler(async (req, res) => {
-  const lab = await Lab.find().sort({ name: 1 }).exec();
-  res.json({ lab });
+  const labs = await Lab.find().sort({ name: 1 }).exec();
+  res.json({ labs });
 });
 
 // @desc    Fetch single Category
@@ -54,31 +54,46 @@ const createLab = asyncHandler(async (req, res) => {
 // // @route   PUT /api/Category/:id
 // // @access  Private/Admin
 const updateLab = asyncHandler(async (req, res) => {
-  const { name, description } = req.body;
+  const {
+    name,
+    description,
+    imageUrl,
+    englishUrl,
+    tamilUrl,
+    demoUrl,
+    category,
+    subject,
+    unit,
+    heading,
+    tags,
+  } = req.body;
+  try {
+    const lab = await Lab.findById(req.params.id);
 
-  const lab = await Lab.findById(req.params.id);
+    if (lab) {
+      lab.name = name;
+      lab.imageUrl = imageUrl;
+      lab.englishUrl = englishUrl;
+      lab.tamilUrl = tamilUrl;
+      lab.demoUrl = demoUrl;
+      lab.category = category;
+      lab.subject = subject;
+      lab.unit = unit;
+      lab.heading = heading;
+      lab.description = description;
+      lab.tags = tags;
+      lab.description = description;
 
-  if (lab) {
-    lab.name = name;
-    lab.imageUrl = imageUrl;
-    lab.englishUrl = englishUrl;
-    lab.tamilUrl = tamilUrl;
-    lab.demoUrl = demoUrl;
-    lab.category = category;
-    lab.subject = subject;
-    lab.unit = unit;
-    lab.heading = heading;
-    lab.description = description;
-    lab.tags = tags;
-    lab.description = description;
-
-    // console.log(category);
-    const updatedLab = await lab.save();
-    // console.log(updateCategory);
-    res.json(updatedLab);
-  } else {
-    res.status(404);
-    throw new Error("Lab not found");
+      // console.log(category);
+      const updatedLab = await lab.save();
+      // console.log(updateCategory);
+      res.json(updatedLab);
+    } else {
+      res.status(404);
+      throw new Error("Lab not found");
+    }
+  } catch (error) {
+    console.log(error);
   }
 });
 
