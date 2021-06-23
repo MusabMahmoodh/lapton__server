@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Product from "../models/productModel.js";
+import Lab from "../models/labModel.js";
 import { upload_file } from "./fileUpload.js";
 // @desc    Fetch all products
 // @route   GET /api/products
@@ -10,7 +11,7 @@ const getProducts = asyncHandler(async (req, res) => {
   // console.log("here");
   const keyword = req.query.keyword
     ? {
-        tags: {
+        name: {
           $regex: req.query.keyword,
           $options: "i",
         },
@@ -55,6 +56,30 @@ const getProducts = asyncHandler(async (req, res) => {
     //   .select("name")
     //   .exec();
     // ).length;
+    const labs = await Lab.find({ ...search })
+      .select([
+        "-createdAt",
+        "-updatedAt",
+        "-tags",
+        "-isRecommended",
+        "-unit",
+        "-imageUrl",
+      ])
+      .sort({ name: "desc" })
+      .populate({
+        path: "category",
+        select: ["-createdAt", "-updatedAt"],
+      })
+      .populate({
+        path: "subject",
+        select: ["-createdAt", "-updatedAt"],
+      })
+      .populate({
+        path: "heading",
+        select: ["-createdAt", "-updatedAt"],
+      })
+
+      .exec();
     const products = await Product.find({ ...search })
       .select(["-createdAt", "-updatedAt", "-tags", "-isRecommended", "-unit"])
       .sort({ createdAt: "desc" })
@@ -76,7 +101,7 @@ const getProducts = asyncHandler(async (req, res) => {
     // console.log({ length });
     // res.json({ length, products, page, pages: Math.ceil(count / pageSize) });
 
-    res.json({ products });
+    res.json({ products, labs });
   } catch (err) {
     // console.log(err);
     res.json({ message: err.message });
