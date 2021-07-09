@@ -5,7 +5,7 @@ import Lab from "../models/labModel.js";
 // @route   GET /api/Category
 // @access  Public
 const getLab = asyncHandler(async (req, res) => {
-  const labs = await Lab.find().sort({ name: 1 }).exec();
+  const labs = await Lab.find().sort({ createdAt: "desc" }).exec();
   res.json({ labs });
 });
 
