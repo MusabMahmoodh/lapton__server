@@ -1,12 +1,22 @@
 import asyncHandler from "express-async-handler";
+import { CACHE_KEY_LAB } from "../constants/cacheKeys.js";
 import Lab from "../models/labModel.js";
+import cacheClient from "../services/cahceClient.js";
 
 // @desc    Fetch all Category
 // @route   GET /api/Category
 // @access  Public
 const getLab = asyncHandler(async (req, res) => {
-  const labs = await Lab.find().sort({ createdAt: "desc" }).exec();
-  res.json({ labs });
+  var cachedLab = cacheClient.get(CACHE_KEY_LAB);
+  console.log("Keys", cacheClient.keys());
+  if (cachedLab !== null) {
+    return res.json({ labs: JSON.parse(cachedLab) });
+  } else {
+    const labs = await Lab.find().sort({ createdAt: "desc" }).exec();
+
+    cacheClient.put(CACHE_KEY_LAB, JSON.stringify(labs), 1000 * 3600 * 35);
+    res.json({ labs });
+  }
 });
 
 // @desc    Fetch single Category
